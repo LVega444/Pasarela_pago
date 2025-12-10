@@ -1,0 +1,280 @@
+﻿<Window x:Class="PasarelaPagoWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pasarela de Pago - Sistema de Puestos Callejeros" 
+        Height="700" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#f8f9fa"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <!-- Estilo para TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#dee2e6"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#495057"/>
+        </Style>
+
+        <Style TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#dee2e6"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#495057"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#6c757d"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#007bff"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="SuccessButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#28a745"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="InfoButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#17a2b8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Panel Izquierdo - Información -->
+        <Border Grid.Column="0" Background="White" Margin="10" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Border Grid.Row="0" Background="#007bff" CornerRadius="10,10,0,0" Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="PASARELA DE PAGO" 
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Sistema de Puestos Callejeros" 
+                                   FontSize="14" 
+                                   Foreground="#e3f2fd"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Información del Sistema -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="Bienvenido al Sistema de Pagos" 
+                                   FontSize="18" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#343a40"
+                                   Margin="0,0,0,20"/>
+
+                        <Border Background="#e7f3ff" CornerRadius="8" Padding="15" Margin="0,0,0,15">
+                            <StackPanel>
+                                <TextBlock Text="💳 Información de Pago" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#0056b3"
+                                           Margin="0,0,0,10"/>
+                                <TextBlock Text="• Ingrese su número de documento y PIN" 
+                                           Foreground="#495057"/>
+                                <TextBlock Text="• Seleccione el tipo de pago y monto" 
+                                           Foreground="#495057"/>
+                                <TextBlock Text="• Verifique la información antes de confirmar" 
+                                           Foreground="#495057"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#f8f9fa" CornerRadius="8" Padding="15" BorderBrush="#dee2e6" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="📊 Información del Cliente" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#495057"
+                                           Margin="0,0,0,10"/>
+
+                                <StackPanel x:Name="pnlInfoCliente" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Cliente:" FontWeight="SemiBold" Margin="0,0,10,5"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtInfoCliente" Foreground="#007bff"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Documento:" FontWeight="SemiBold" Margin="0,0,10,5"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtInfoDocumento" Foreground="#007bff"/>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Tipo:" FontWeight="SemiBold" Margin="0,0,10,5"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtInfoTipo" Foreground="#007bff"/>
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Saldo Actual:" FontWeight="SemiBold" Margin="0,0,10,5"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtInfoSaldo" Foreground="#28a745" FontWeight="SemiBold"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <TextBlock x:Name="txtSinInformacion" Text="No hay información del cliente" 
+                                           Foreground="#6c757d" FontStyle="Italic"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer -->
+                <Border Grid.Row="2" Background="#f8f9fa" CornerRadius="0,0,10,10" Padding="15" BorderBrush="#dee2e6" BorderThickness="1,0,1,1">
+                    <TextBlock Text="💻 Sistema Seguro - Transacciones en Tiempo Real" 
+                               Foreground="#6c757d" 
+                               FontSize="12"
+                               HorizontalAlignment="Center"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Panel Derecho - Formulario de Pago -->
+        <Border Grid.Column="1" Background="White" Margin="10" CornerRadius="10">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="30">
+                    <TextBlock Text="Procesar Pago" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="#343a40"
+                               Margin="0,0,0,30"/>
+
+                    <!-- Número de Documento -->
+                    <TextBlock Text="Número de Documento *" 
+                               FontWeight="SemiBold" 
+                               Foreground="#495057"
+                               Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtDocumento" 
+                             Text="Ingrese su número de documento"
+                             Foreground="Gray"
+                             GotFocus="TextBox_GotFocus"
+                             LostFocus="TextBox_LostFocus"
+                             TextChanged="txtDocumento_TextChanged"/>
+
+                    <!-- PIN -->
+                    <TextBlock Text="PIN de Seguridad *" 
+                               FontWeight="SemiBold" 
+                               Foreground="#495057"
+                               Margin="0,15,0,5"/>
+                    <PasswordBox x:Name="txtPin" 
+                                 PasswordChanged="txtPin_PasswordChanged"/>
+
+                    <!-- Tipo de Pago -->
+                    <TextBlock Text="Tipo de Pago *" 
+                               FontWeight="SemiBold" 
+                               Foreground="#495057"
+                               Margin="0,15,0,5"/>
+                    <ComboBox x:Name="cmbTipoPago" 
+                              FontSize="14" 
+                              Padding="10"
+                              SelectionChanged="cmbTipoPago_SelectionChanged">
+                        <ComboBoxItem Content="Seleccione tipo de pago" IsEnabled="False"/>
+                        <ComboBoxItem Content="Venta Directa"/>
+                        <ComboBoxItem Content="Pedido Especial"/>
+                        <ComboBoxItem Content="Servicio"/>
+                        <ComboBoxItem Content="Producto Digital"/>
+                    </ComboBox>
+
+                    <!-- Monto -->
+                    <TextBlock Text="Monto a Pagar *" 
+                               FontWeight="SemiBold" 
+                               Foreground="#495057"
+                               Margin="0,15,0,5"/>
+                    <TextBox x:Name="txtMonto" 
+                             Text="0.00"
+                             Foreground="Gray"
+                             GotFocus="TextBox_GotFocus"
+                             LostFocus="TextBox_LostFocus"
+                             PreviewTextInput="txtMonto_PreviewTextInput"
+                             TextChanged="txtMonto_TextChanged"/>
+
+                    <!-- Botones -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                        <Button x:Name="btnConsultar" 
+                                Content="🔍 Consultar Saldo" 
+                                Style="{StaticResource InfoButton}"
+                                Click="btnConsultar_Click"
+                                Margin="0,0,10,0"/>
+
+                        <Button x:Name="btnProcesar" 
+                                Content="💳 Procesar Pago" 
+                                Style="{StaticResource SuccessButton}"
+                                Click="btnProcesar_Click"
+                                IsEnabled="False"/>
+                    </StackPanel>
+
+                    <!-- Resultado -->
+                    <Border x:Name="borderResultado" 
+                            Background="#f8f9fa" 
+                            CornerRadius="8" 
+                            Padding="15" 
+                            Margin="0,20,0,0"
+                            Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock x:Name="txtResultadoTitulo" 
+                                       FontSize="16" 
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock x:Name="txtResultadoMensaje" 
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Información de Conexión -->
+                    <Border Background="#fff3cd" 
+                            CornerRadius="8" 
+                            Padding="15" 
+                            Margin="0,20,0,0"
+                            BorderBrush="#ffeaa7" 
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="🔗 Conexión con Sistema de Gestión" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="#856404"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="Conectado a ProyectoDistribuidas" 
+                                       Foreground="#856404"
+                                       FontSize="12"/>
+                            <TextBlock Text="Tabla: Carteras" 
+                                       Foreground="#856404"
+                                       FontSize="12"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="PasarelaPagoWPF.ConfiguracionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Configuración de Conexión" Height="300" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Configuración de Base de Datos" 
+                   FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <TextBlock Grid.Row="1" Text="Cadena de Conexión:" 
+                   FontWeight="SemiBold" Margin="0,0,0,5"/>
+
+        <TextBox Grid.Row="2" x:Name="txtConnectionString" 
+                 Height="80" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                 FontFamily="Consolas" FontSize="11"/>
+
+        <TextBlock Grid.Row="3" Text="Ejemplos comunes:" 
+                   FontWeight="SemiBold" Margin="0,10,0,5"/>
+
+        <ListBox Grid.Row="4" x:Name="lstEjemplos" Margin="0,0,0,10"
+                 FontFamily="Consolas" FontSize="10" SelectionChanged="lstEjemplos_SelectionChanged">
+            <ListBoxItem>Server=.;Database=ProyectoDistribuidas;Integrated Security=true;TrustServerCertificate=true;</ListBoxItem>
+            <ListBoxItem>Server=localhost;Database=ProyectoDistribuidas;Integrated Security=true;TrustServerCertificate=true;</ListBoxItem>
+            <ListBoxItem>Server=(localdb)\MSSQLLocalDB;Database=ProyectoDistribuidas;Integrated Security=true;TrustServerCertificate=true;</ListBoxItem>
+            <ListBoxItem>Server=nombre_servidor;Database=ProyectoDistribuidas;User Id=usuario;Password=contraseña;TrustServerCertificate=true;</ListBoxItem>
+        </ListBox>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Probar Conexión" Click="btnProbarConexion_Click" 
+                    Margin="0,0,10,0" Padding="10,5"/>
+            <Button Content="Guardar" Click="btnGuardar_Click" 
+                    Background="#007bff" Foreground="White" Padding="15,5"/>
+        </StackPanel>
+    </Grid>
+</Window>
